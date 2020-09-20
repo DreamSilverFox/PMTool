@@ -10,31 +10,42 @@ import {
 
 let client: LanguageClient;
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function activate(context: ExtensionContext) {
+    // ck3?
+    const temp = 'ck3';
     // 服务端配置
-    let serverModule = context.asAbsolutePath(
+    const serverModule = context.asAbsolutePath(
         path.join('server', 'out', 'server.js')
     );
-
-    let serverOptions: ServerOptions = {
-        module: serverModule, transport: TransportKind.ipc
+    
+    const serverOptions: ServerOptions = {
+        module: serverModule,
+        transport: TransportKind.ipc
     };
 
     // 客户端配置
-    let clientOptions: LanguageClientOptions = {
+    const clientOptions: LanguageClientOptions = {
         // js代码触发事情
-        documentSelector: [{ scheme: 'file', language: 'js' }],
+        documentSelector: [{ scheme: 'file', language: 'paradox' }],
     };
 
     client = new LanguageClient(
-        'DemoLanguageServer',
-        'Demo Language Server',
+        'ParadoxLanguageServer',
+        'Paradox Language Server',
         serverOptions,
         clientOptions
     );
-
     // 启动客户端，同时启动语言服务器
     client.start();
+    
+    // 发送插件目录
+    client.onReady().then(() => {
+        client.sendNotification("extensionPath", {
+            path: context.extensionPath, 
+            type: temp
+        });
+    });
 }
 
 export function deactivate(): Thenable<void> | undefined {

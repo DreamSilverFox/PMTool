@@ -1,0 +1,8 @@
+construction_time: 
+  - Value
+  - 建造时间(天)
+  - construction_time = 720
+levy:
+  - 14
+  - 税收
+  - levy = 200
